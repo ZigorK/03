@@ -1,6 +1,6 @@
 #include <iostream>
 #include <clocale>
-
+//123
 // Структура для последовательного контейнера (массив)
 struct SequentialContainer
 {
