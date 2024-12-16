@@ -7,9 +7,7 @@ project(laba3 VERSION ${PROJECT_VESRION}) # Определяет имя прое
 add_executable(laba3 main.cpp)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF) # Отключаем расширения компилятора
-
+set(CXX_STANDARD_REQUIRED ON)
 
 # Установка файлов для инсталляции
 install(TARGETS laba3 DESTINATION bin)
