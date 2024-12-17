@@ -9,17 +9,26 @@ on:
 jobs:
   build_ubuntu:
     runs-on: ubuntu-latest
-    permissions: write-all
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: true
+      
       - name: Configure with CMake
         run: cmake . -DPATCH_VERSION=${{ github.run_number }}
+      
       - name: Build project
         run: cmake --build .
+      
       - name: Create package
         run: cmake --build . --target package
+
+      - name: List files
+        run: ls -la
+
+      - name: Rename package
+        run: mv ./laba3-*.deb ./laba3-0.0.${{ github.run_number }}-Linux.deb
+
       - name: Create Release (Ubuntu)
         id: create_release_ubuntu
         uses: actions/create-release@v1
@@ -30,6 +39,7 @@ jobs:
           release_name: Release ${{ github.run_number }} (Ubuntu)
           draft: false
           prerelease: false
+
       - name: Upload Release Asset (Ubuntu)
         id: upload-release-asset-ubuntu
         uses: actions/upload-release-asset@v1
@@ -40,6 +50,7 @@ jobs:
           asset_path: ./laba3-0.0.${{ github.run_number }}-Linux.deb
           asset_name: laba3-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
+
 
   build_macos:
     runs-on: macos-latest
