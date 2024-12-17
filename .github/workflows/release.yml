@@ -52,7 +52,7 @@ jobs:
           asset_path: ./laba3-0.0.${{ github.run_number }}-Linux.deb
           asset_name: laba3-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
-          allowUpdates: true # Разрешаем обновление уже загруженного ассета
+
 
   build_macos:
     runs-on: macos-latest # Запускаем на macOS
@@ -98,4 +98,4 @@ jobs:
           asset_path: ./laba3-0.0.${{ github.run_number }}-macos.dmg
           asset_name: laba3-0.0.${{ github.run_number }}-macos.dmg
           asset_content_type: application/x-apple-diskimage
-          allowUpdates: true # Разрешаем обновление уже загруженного ассета
+
