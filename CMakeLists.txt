@@ -3,11 +3,12 @@ set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 # Создает переменные PATCH_VERSION и PROJECT_VESRION для управления версиями проекта.
 
+set(CMAKE_CXX_STANDARD 17)
+set(CXX_STANDARD_REQUIRED ON)
+
 project(laba3 VERSION ${PROJECT_VESRION}) # Определяет имя проекта laba3 и использует переменную PROJECT_VESRION для указания версии проекта.
 add_executable(laba3 main.cpp)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CXX_STANDARD_REQUIRED ON)
 
 # Установка файлов для инсталляции
 install(TARGETS laba3 DESTINATION bin)
