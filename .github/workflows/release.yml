@@ -1,6 +1,5 @@
 name: 'C++ CI'
 
-# Запускаем workflow при пуше в ветки lab3 или feature/github_actions
 on:
   push:
     branches:
@@ -9,27 +8,18 @@ on:
 
 jobs:
   build_ubuntu:
-    runs-on: ubuntu-latest # Запускаем на Ubuntu
-    permissions: write-all # Предоставляем права на запись всем ресурсам
+    runs-on: ubuntu-latest
+    permissions: write-all
     steps:
-      # Клонируем репозиторий, включая submodules
       - uses: actions/checkout@v3
         with:
           submodules: true
-      
-      # Конфигурируем проект с помощью CMake, используя номер запуска для PATCH_VERSION
       - name: Configure with CMake
         run: cmake . -DPATCH_VERSION=${{ github.run_number }}
-      
-      # Собираем проект
       - name: Build project
         run: cmake --build .
-      
-      # Создаем пакет
       - name: Create package
         run: cmake --build . --target package
-
-      # Создаем релиз для Ubuntu
       - name: Create Release (Ubuntu)
         id: create_release_ubuntu
         uses: actions/create-release@v1
@@ -40,8 +30,6 @@ jobs:
           release_name: Release ${{ github.run_number }} (Ubuntu)
           draft: false
           prerelease: false
-
-      # Загружаем релизный ассет для Ubuntu
       - name: Upload Release Asset (Ubuntu)
         id: upload-release-asset-ubuntu
         uses: actions/upload-release-asset@v1
@@ -53,29 +41,21 @@ jobs:
           asset_name: laba3-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
 
-
   build_macos:
-    runs-on: macos-latest # Запускаем на macOS
-    permissions: write-all # Предоставляем права на запись всем ресурсам
+    runs-on: macos-latest
+    permissions: write-all
     steps:
-      # Клонируем репозиторий, включая submodules
       - uses: actions/checkout@v3
         with:
           submodules: true
-      
-      # Конфигурируем проект с помощью CMake, используя номер запуска для PATCH_VERSION
       - name: Configure with CMake
         run: cmake . -DPATCH_VERSION=${{ github.run_number }}
-      
-      # Собираем проект
       - name: Build project
         run: cmake --build .
-      
-      # Создаем пакет
+      - name: Check .dmg file
+        run: test -f ./laba3-0.0.${{ github.run_number }}-macos.dmg
       - name: Create package
         run: cmake --build . --target package
-
-      # Создаем релиз для macOS
       - name: Create Release (macOS)
         id: create_release_macos
         uses: actions/create-release@v1
@@ -86,8 +66,6 @@ jobs:
           release_name: Release ${{ github.run_number }} (macOS)
           draft: false
           prerelease: false
-
-      # Загружаем релизный ассет для macOS
       - name: Upload Release Asset (macOS)
         id: upload-release-asset-macos
         uses: actions/upload-release-asset@v1
@@ -98,4 +76,3 @@ jobs:
           asset_path: ./laba3-0.0.${{ github.run_number }}-macos.dmg
           asset_name: laba3-0.0.${{ github.run_number }}-macos.dmg
           asset_content_type: application/x-apple-diskimage
-
