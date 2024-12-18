@@ -82,8 +82,11 @@ jobs:
       - name: List files (macOS)  # Добавляем шаг для вывода файлов
         run: ls -la
 
-      - name: Verify .pkg file
+      - name: Verify .pkg file existence
         run: |
+          echo "Listing files in the build directory:"
+          ls -la ./  # Печатаем все файлы, чтобы проверить их наличие
+          
           if [ ! -f ./laba3-0.0.${{ github.run_number }}-macos.pkg ]; then
             echo "Error: .pkg file not found!" >&2
             exit 1
