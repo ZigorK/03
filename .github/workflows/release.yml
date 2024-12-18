@@ -17,9 +17,6 @@ jobs:
         with:
           submodules: true
       
-      - name: Install latest CMake
-        run: brew install cmake
-        
       - name: Configure with CMake
         run: cmake . -DPATCH_VERSION=${{ github.run_number }}
       
@@ -61,7 +58,6 @@ jobs:
           asset_name: laba3-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
 
-
   build_macos:
     runs-on: macos-latest
     permissions: write-all
@@ -70,6 +66,9 @@ jobs:
         with:
           submodules: true
       
+      - name: Install dependencies
+        run: brew install cmake
+
       - name: Configure with CMake
         run: cmake . -DPATCH_VERSION=${{ github.run_number }}
       
@@ -78,8 +77,8 @@ jobs:
 
       - name: Create package
         run: cmake --build . --target package
-      
-      - name: Verify package creation
+
+      - name: Verify DMG file
         run: |
           if [ ! -f ./laba3-0.0.${{ github.run_number }}-macos.dmg ]; then
             echo "Error: .dmg file not found!" >&2
