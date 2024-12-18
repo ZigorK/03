@@ -26,6 +26,7 @@ if(APPLE)
     set(CPACK_PACKAGE_FILE_NAME "laba3-${PROJECT_VERSION}-macos")
 elseif(UNIX AND NOT APPLE)
     set(CPACK_GENERATOR "DEB")
+    set(CPACK_PACKAGE_FILE_NAME "laba3-${PROJECT_VERSION}-ubuntu")
 endif()
 
 # Указание версии пакета
