@@ -9,6 +9,7 @@ project(laba3 VERSION ${PROJECT_VERSION})
 # Установка стандартов C++
 set(CMAKE_CXX_STANDARD 17)
 set(CXX_STANDARD_REQUIRED ON)
+set(CPACK_GENERATOR "DragNDrop")
 
 # Добавление исполняемого файла
 add_executable(laba3 main.cpp)
