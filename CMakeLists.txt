@@ -22,7 +22,7 @@ set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 
 # Указание генераторов для macOS и Ubuntu
 if(APPLE)
-    set(CPACK_GENERATOR "productbuild")  # Используем productbuild для создания .pkg на macOS
+    set(CPACK_GENERATOR "productbuild")
 elseif(UNIX AND NOT APPLE)
     set(CPACK_GENERATOR "DEB")
 endif()
