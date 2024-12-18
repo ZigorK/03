@@ -26,7 +26,7 @@ jobs:
       - name: Create package
         run: cmake --build . --target package
 
-      - name: List files
+      - name: List files (Linux)
         run: ls -la
 
       - name: Rename package (Linux)
@@ -78,6 +78,9 @@ jobs:
 
       - name: Create package
         run: cmake --build . --target package
+
+      - name: List files (macOS)  # Добавляем шаг для вывода файлов
+        run: ls -la
 
       - name: Verify .pkg file
         run: |
