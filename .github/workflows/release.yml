@@ -36,6 +36,19 @@ jobs:
             mv "$DEB_FILE" ./laba3-0.0.${{ github.run_number }}-Linux.deb
           fi
 
+      - name: Delete existing release (Ubuntu)
+        run: |
+          release_tag="v${{ github.run_number }}"
+          existing_release=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/tags/$release_tag")
+          
+          if [[ $(echo $existing_release | jq -r '.message') != "Not Found" ]]; then
+            release_id=$(echo $existing_release | jq -r '.id')
+            echo "Found existing release, deleting release with ID $release_id"
+            curl -X DELETE -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              "https://api.github.com/repos/${{ github.repository }}/releases/$release_id"
+          fi
+
       - name: Create Release (Ubuntu)
         id: create_release_ubuntu
         uses: actions/create-release@v1
@@ -79,17 +92,20 @@ jobs:
       - name: Create package
         run: cmake --build . --target package
 
-      - name: List files (macOS)  # Добавляем шаг для вывода файлов
+      - name: List files (macOS)
         run: ls -la
 
-      - name: Verify .pkg file existence
+      - name: Delete existing release (macOS)
         run: |
-          echo "Listing files in the build directory:"
-          ls -la ./  # Печатаем все файлы, чтобы проверить их наличие
+          release_tag="v${{ github.run_number }}"
+          existing_release=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/tags/$release_tag")
           
-          if [ ! -f ./laba3-0.0.${{ github.run_number }}-macos.pkg ]; then
-            echo "Error: .pkg file not found!" >&2
-            exit 1
+          if [[ $(echo $existing_release | jq -r '.message') != "Not Found" ]]; then
+            release_id=$(echo $existing_release | jq -r '.id')
+            echo "Found existing release, deleting release with ID $release_id"
+            curl -X DELETE -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              "https://api.github.com/repos/${{ github.repository }}/releases/$release_id"
           fi
 
       - name: Create Release (macOS)
